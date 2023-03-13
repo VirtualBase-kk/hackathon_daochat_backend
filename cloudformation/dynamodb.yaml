@@ -62,11 +62,43 @@ Resources:
           AttributeType: S
         - AttributeName: roomId
           AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: toUser
+          AttributeType: S
+        - AttributeName: isDm
+          AttributeType: N
+        - AttributeName: createdTs
+          AttributeType: N
       BillingMode: "PAY_PER_REQUEST"
       GlobalSecondaryIndexes:
-        - IndexName: "roomId-index"
+        - IndexName: "roomId-createdTs-index"
           KeySchema:
             - AttributeName: "roomId"
+              KeyType: "HASH"
+            - AttributeName: "createdTs"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "userId-createdTs-index"
+          KeySchema:
+            - AttributeName: "userId"
+              KeyType: "HASH"
+            - AttributeName: "createdTs"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "toUser-createdTs-index"
+          KeySchema:
+            - AttributeName: "toUser"
+              KeyType: "HASH"
+            - AttributeName: "createdTs"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "isDm-index"
+          KeySchema:
+            - AttributeName: "isDm"
               KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"

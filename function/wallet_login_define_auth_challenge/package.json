@@ -1,0 +1,15 @@
+{
+  "name": "wallet_login_define_auth_challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.289.0",
+    "aws-lambda": "^1.0.7"
+  }
+}
