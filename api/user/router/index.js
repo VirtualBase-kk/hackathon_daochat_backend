@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const AWS = require("aws-sdk");
 const documentClient = new AWS.DynamoDB.DocumentClient();
+const secretsManager = new aws.SecretsManager()
 const {dbname} = require("../dbname")
 const auth = require("../auth")
 import { v4 as uuidv4 } from 'uuid';
@@ -89,8 +90,6 @@ router.get("/user/meta",async(req,res)=>{
     }
 */
 router.post("/user/message",async (req,res)=>{
-    const authResp = await auth(req)
-    if (authResp.status) {
         let message = uuidv4();
         for (let i = 0; i < 5; i++) {
             message = message + uuidv4()
@@ -115,10 +114,50 @@ router.post("/user/message",async (req,res)=>{
             console.log(error)
             res.status(500).json({})
         }
-    } else {
-        res.status(401).json({
-            status:false
+})
+
+/*
+    ウォレットログイン
+    リクエスト：
+    {
+        messageId:string
+        signature: string
+    }
+    レスポンス：
+    {
+        status: bool
+        jwt: string
+    }
+ */
+router.post("/user/wallet/signin",async (req,res)=>{
+    const getMessageParam = {
+        TableName: dbname["SignMessage"],
+        Key:{
+            id: req.body["messageId"]
+        }
+    }
+    const resp = await documentClient.get(getMessageParam).promise()
+
+    const web3 = new Web3();
+    let recoverAddress = web3.eth.accounts.recover(
+        resp.Item["message"],
+        req.body["signature"]
+    );
+    if (resp.Item.walletAddress.toUpperCase().slice(2) === recoverAddress.toUpperCase().slice(2)) {
+        const response = await secretsManager.getSecretValue({
+            SecretId: process.env.SECRET_NAME,
+        }).promise()
+        const jwtSecret = response.SecretString
+        const token = jwt.sign({ walletAddress: resp.walletAddress }, jwtSecret, {
+            algorithm: "HS256",
+            expiresIn: "1H",
+        });
+        res.json({
+            status:true,
+            jwt:token
         })
+    } else {
+        res.status(400).json({status:false})
     }
 })
 
@@ -137,7 +176,6 @@ router.post("/user/message",async (req,res)=>{
 router.post("/user/wallet",async(req,res)=>{
     const authResp = await auth(req)
     if (authResp.status) {
-
         const getMessageParam = {
             TableName: dbname["SignMessage"],
             Key:{
@@ -176,4 +214,3 @@ router.post("/user/wallet",async(req,res)=>{
         })
     }
 })
-

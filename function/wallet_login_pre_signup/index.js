@@ -12,5 +12,6 @@ exports.handler = async (event, context, callback) => {
         },
     };
     await documentClient.put(params).promise();
+    event.response.autoConfirmUser = true;
     callback(null, event);
 };
