@@ -1,0 +1,273 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Code for DynamoDB"
+Parameters:
+  ServiceName:
+    Type: String
+    Default: daochat
+
+Resources:
+  OrganizationTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: ownerId
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "ownerId-index"
+          KeySchema:
+            - AttributeName: "ownerId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-Organization"
+
+  RoomTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: organizationId
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "organizationId-index"
+          KeySchema:
+            - AttributeName: "organizationId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-Room"
+
+  ChatTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: roomId
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "roomId-index"
+          KeySchema:
+            - AttributeName: "roomId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-Chat"
+
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: evmAddress
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "evmAddress-index"
+          KeySchema:
+            - AttributeName: "evmAddress"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-User"
+
+  MemberTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "userId-index"
+          KeySchema:
+            - AttributeName: "userId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-Member"
+
+  VoteTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: organizationId
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "organizationId-index"
+          KeySchema:
+            - AttributeName: "organizationId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-Vote"
+
+  VoteResultTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: voteId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "voteId-index"
+          KeySchema:
+            - AttributeName: "voteId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "userId-index"
+          KeySchema:
+            - AttributeName: "userId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-VoteResult"
+
+  SignMessageTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: walletAddress
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "walletAddress-index"
+          KeySchema:
+            - AttributeName: "walletAddress"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-SignMessage"
+
+  TodoItemTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: organization
+          AttributeType: S
+        - AttributeName: roomId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "organization-index"
+          KeySchema:
+            - AttributeName: "organization"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "roomId-index"
+          KeySchema:
+            - AttributeName: "roomId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "userId-index"
+          KeySchema:
+            - AttributeName: "userId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-TodoItem"
+
+  WebsoketConnectionTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: roomId
+          AttributeType: S
+        - AttributeName: connectionId
+          AttributeType: S
+        - AttributeName: status
+          AttributeType: N
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "roomId-status-index"
+          KeySchema:
+            - AttributeName: "roomId"
+              KeyType: "HASH"
+            - AttributeName: "status"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "connectionId-index"
+          KeySchema:
+            - AttributeName: "connectionId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      TableName: !Sub "${ServiceName}-WebsoketConnection"
