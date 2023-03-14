@@ -9,7 +9,11 @@ export const handler = async (event) => {
     const token = event.request?.challengeAnswer;
     const jwtSecret = response.SecretString
     const {confirmed,userId} = verifyJwt(token, jwtSecret);
-    event.response.answerCorrect = confirmed;
+    if (event.request.userAttributes.username !== userId) {
+        event.response.answerCorrect = false;
+    } else {
+        event.response.answerCorrect = confirmed;
+    }
 
     return event;
 };

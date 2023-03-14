@@ -96,7 +96,7 @@ router.post("/user/message",async (req,res)=>{
         }
         const messageId = uuidv4()
         const putMessageParams = {
-            TableName: dbname["User"],
+            TableName: dbname["SignMessage"],
             Item: {
                 id: messageId,
                 message: message,
@@ -144,17 +144,42 @@ router.post("/user/wallet/signin",async (req,res)=>{
         req.body["signature"]
     );
     if (resp.Item.walletAddress.toUpperCase().slice(2) === recoverAddress.toUpperCase().slice(2)) {
+        const queryUserTableParam = {
+            TableName: dbname["User"],
+            IndexName: "evmAddress-index",
+            ExpressionAttributeNames: {
+                "#evmAddress":"evmAddress"
+            },
+            ExpressionAttributeValues: {
+                ":evmAddress": resp.Item.walletAddress.toUpperCase()
+            },
+            KeyConditionExpression:"#evmAddress = :evmAddress"
+        }
+        const userResp = await documentClient.query(queryUserTableParam).promise()
+        let userId = uuidv4()
+        if (userResp.Count !== 0) {
+            const putUserParam = {
+                TableName: dbname["User"],
+                key:{
+                    id: userId,
+                    evmAddress: resp.Item.walletAddress.toUpperCase()
+                }
+            }
+            await documentClient.put(putUserParam).promise()
+        } else {
+            userId = userResp.Items[0].id
+        }
         const response = await secretsManager.getSecretValue({
             SecretId: process.env.SECRET_NAME,
         }).promise()
         const jwtSecret = response.SecretString
-        const token = jwt.sign({ walletAddress: resp.walletAddress }, jwtSecret, {
+        const token = jwt.sign({ userId: userId }, jwtSecret, {
             algorithm: "HS256",
-            expiresIn: "1H",
+            expiresIn: "10M",
         });
         res.json({
             status:true,
-            jwt:token
+            jwt:token,
         })
     } else {
         res.status(400).json({status:false})
@@ -173,44 +198,44 @@ router.post("/user/wallet/signin",async (req,res)=>{
         status: bool
     }
  */
-router.post("/user/wallet",async(req,res)=>{
-    const authResp = await auth(req)
-    if (authResp.status) {
-        const getMessageParam = {
-            TableName: dbname["SignMessage"],
-            Key:{
-                id: req.body["messageId"]
-            }
-        }
-        const resp = await documentClient.get(getMessageParam).promise()
-
-        const web3 = new Web3();
-        let recoverAddress = web3.eth.accounts.recover(
-            resp.Item["message"],
-            req.body["signature"]
-        );
-        if (resp.Item.walletAddress.toUpperCase().slice(2) === recoverAddress.toUpperCase().slice(2)) {
-            const updateDatabaseParam = {
-                TableName: dbname["User"],
-                Key:{
-                    id: authResp.user["cognito:username"]
-                },
-                UpdateExpression: "set #walletAddress=:walletAddress",
-                ExpressionAttributeNames: {
-                    "#walletAddress": "walletAddress",
-                },
-                ExpressionAttributeValues: {
-                    ":walletAddress": resp.Item.walletAddress,
-                },
-            }
-            await documentClient.update(updateDatabaseParam).promise()
-            res.json({status:true})
-        } else {
-            res.status(400).json({status:false})
-        }
-    } else {
-        res.status(401).json({
-            status:false
-        })
-    }
-})
+// router.post("/user/wallet",async(req,res)=>{
+//     const authResp = await auth(req)
+//     if (authResp.status) {
+//         const getMessageParam = {
+//             TableName: dbname["SignMessage"],
+//             Key:{
+//                 id: req.body["messageId"]
+//             }
+//         }
+//         const resp = await documentClient.get(getMessageParam).promise()
+//
+//         const web3 = new Web3();
+//         let recoverAddress = web3.eth.accounts.recover(
+//             resp.Item["message"],
+//             req.body["signature"]
+//         );
+//         if (resp.Item.walletAddress.toUpperCase().slice(2) === recoverAddress.toUpperCase().slice(2)) {
+//             const updateDatabaseParam = {
+//                 TableName: dbname["User"],
+//                 Key:{
+//                     id: authResp.user["cognito:username"]
+//                 },
+//                 UpdateExpression: "set #walletAddress=:walletAddress",
+//                 ExpressionAttributeNames: {
+//                     "#walletAddress": "walletAddress",
+//                 },
+//                 ExpressionAttributeValues: {
+//                     ":walletAddress": resp.Item.walletAddress,
+//                 },
+//             }
+//             await documentClient.update(updateDatabaseParam).promise()
+//             res.json({status:true})
+//         } else {
+//             res.status(400).json({status:false})
+//         }
+//     } else {
+//         res.status(401).json({
+//             status:false
+//         })
+//     }
+// })
