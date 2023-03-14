@@ -132,7 +132,7 @@ router.post("/todo/done",async(req,res)=>{
                 "#status":"status",
             },
             ExpressionAttributeValues:{
-                ":status":true
+                ":status": 0
             },
             UpdateExpression: "set #status = :status"
         }
