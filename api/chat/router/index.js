@@ -681,4 +681,116 @@ router.get("/room/vote/list",async (req,res)=>{
     }
 })
 
+/*
+    集計結果をコントラクトへアップロード
+    リクエスト：
+    {
+        id: string（voteId）
+    }
+    レスポンス：
+    {
+        message: string
+    }
+*/
+router.get("/room/vote/push",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getVoteItem = {
+            TableName: dbname["Vote"],
+            Key: {
+                id: req.body["id"]
+            }
+        }
+        const VoteResp = await documentClient.get(getVoteItem).promise()
+
+        const getRoomIndex = {
+            TableName: dbname["Room"],
+            Key: {
+                id: VoteResp.Item["roomId"]
+            }
+        }
+        const resp = documentClient.get(getRoomIndex).promise()
+        const queryMemberReq = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues: {
+                ":userId": authResp.user["cognito:username"]
+            },
+            ExpressionAttributeNames: {
+                "#userId": "userId"
+            },
+            KeyConditionExpression: "#userId = :userId"
+        }
+        const memberResp = await documentClient.query(queryMemberReq).promise()
+        if (memberResp.Count === 0) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+        let access = false
+        memberResp.Items.forEach(item => {
+            if (item.organizationId === resp.Item.organizationId) {
+                access = true
+            }
+        })
+        if (!access) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+
+        if (VoteResp.Item.end > Date.now()) {
+            res.status(400).json({
+                status: false
+            })
+            return
+        }
+
+        const queryVoteResult = {
+            TableName: dbname["VoteResult"],
+            IndexName: "voteId-index",
+            ExpressionAttributeNames:{
+                "#voteId":"voteId"
+            },
+            ExpressionAttributeValues:{
+                ":voteId":req.query["id"]
+            },
+            KeyConditionExpression: "#voteId = :voteId"
+        }
+        const voteResultResp = await documentClient.query(queryVoteResult).promise()
+
+        const answer = {}
+        voteResultResp.Items.forEach(item=>{
+            if (answer.includes(item.choiceId)) {
+                answer[item.choiceId] += 1
+            } else {
+                answer[item.choiceId] = 0
+            }
+        })
+
+        const choiceIds = []
+        const counts = []
+
+        Object.keys(answer).forEach(item=>{
+            choiceIds.push(item)
+            counts.push(answer[item])
+        })
+
+        const web3 = new Web3()
+        const contract = new web3.eth.Contract(abi)
+
+        const message = contract.methods.AddAnswer([req.query["id"],choiceIds,counts]).encodeABI()
+
+        res.json({
+            message: message
+        })
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
 module.exports = router

@@ -187,57 +187,36 @@ router.post("/user/wallet/signin",async (req,res)=>{
 })
 
 /*
-    ユーザーにウォレットアドレスを紐付け
-    リクエスト：
-    {
-        messageId: string
-        signature: string
-    }
+    ユーザーが参加している組織一覧
     レスポンス：
-    {
-        status: bool
-    }
+    [
+        string
+    ]
  */
-// router.post("/user/wallet",async(req,res)=>{
-//     const authResp = await auth(req)
-//     if (authResp.status) {
-//         const getMessageParam = {
-//             TableName: dbname["SignMessage"],
-//             Key:{
-//                 id: req.body["messageId"]
-//             }
-//         }
-//         const resp = await documentClient.get(getMessageParam).promise()
-//
-//         const web3 = new Web3();
-//         let recoverAddress = web3.eth.accounts.recover(
-//             resp.Item["message"],
-//             req.body["signature"]
-//         );
-//         if (resp.Item.walletAddress.toUpperCase().slice(2) === recoverAddress.toUpperCase().slice(2)) {
-//             const updateDatabaseParam = {
-//                 TableName: dbname["User"],
-//                 Key:{
-//                     id: authResp.user["cognito:username"]
-//                 },
-//                 UpdateExpression: "set #walletAddress=:walletAddress",
-//                 ExpressionAttributeNames: {
-//                     "#walletAddress": "walletAddress",
-//                 },
-//                 ExpressionAttributeValues: {
-//                     ":walletAddress": resp.Item.walletAddress,
-//                 },
-//             }
-//             await documentClient.update(updateDatabaseParam).promise()
-//             res.json({status:true})
-//         } else {
-//             res.status(400).json({status:false})
-//         }
-//     } else {
-//         res.status(401).json({
-//             status:false
-//         })
-//     }
-// })
+router.get("/user/organization",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getMemberParam = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues: {
+                "#userId": "userId"
+            },
+            ExpressionAttributeNames:{
+                ":userId":authResp.user["cognito:username"]
+            }
+        }
+        const queryResp = await documentClient.query(getMemberParam).promise()
+        const resp = []
+        queryResp.Items.forEach(item=>{
+            resp.push(item.id)
+        })
+        res.json(resp)
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
 
 module.exports = router
