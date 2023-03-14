@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Lambda"
+Parameters:
+  ServiceName:
+    Type: String
+    Default: daochat
+  CommonBucketName:
+    Type: String
+  LambdaRoleArn:
+    Type: String
+
+Resources:
+  adminApi:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-Admin-Api"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Handler: handler
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+  chatApi:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-Chat-Api"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Handler: handler
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+  todoApi:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-Todo-Api"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+      Handler: handler
+  userApi:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-User-Api"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+      Handler: handler
+  walletLoginCreateAuthCallenge:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-wallet_login_create_auth_callenge-function"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+      Handler: handler
+  walletLoginDefineAuthChallenge:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-wallet_login_define_auth_challenge-function"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+      Handler: handler
+  walletLoginPreSignup:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-wallet_login_pre_signup-function"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+      Handler: handler
+  walletLoginVerifyAuthChallenge:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${ServiceName}-wallet_login_verify_auth_challenge-function"
+      Code:
+        S3Bucket: !Ref CommonBucketName
+        S3Key: handler.zip
+      Role: !Ref LambdaRoleArn
+      Runtime: "nodejs18.x"
+      Handler: handler

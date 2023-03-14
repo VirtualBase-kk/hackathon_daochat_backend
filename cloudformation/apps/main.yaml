@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "daochatapplication"
+Parameters:
+  ServiceName:
+    Type: String
+    Default: daochat
+
+  CommonBucketName:
+    Type: String
+
+Resources:
+  Role:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      Parameters:
+        ServiceName: !Ref ServiceName
+      TemplateURL: !Sub 'https://${CommonBucketName}.s3.us-east-1.amazonaws.com/apps/role.yaml'
+
+  Lambda:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      Parameters:
+        ServiceName: !Ref ServiceName
+        CommonBucketName: !Ref CommonBucketName
+        LambdaRoleArn: !GetAtt Role.Outputs.FunctionRoleArn
+      TemplateURL: !Sub 'https://${CommonBucketName}.s3.us-east-1.amazonaws.com/apps/lambda.yaml'
