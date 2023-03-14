@@ -15,6 +15,7 @@ const Web3 = require("web3")
         name: title,
         organization: string
         description: string
+        point: number
     }
     レスポンス：
     {
@@ -63,7 +64,8 @@ router.post("/todo/create", async (req, res) => {
                 title: req.body["name"],
                 status: false,
                 organization: req.body["organization"],
-                description: req.body["description"]
+                description: req.body["description"],
+                point: req.body["point"]
             }
         }
         await documentClient.put(putTodoItem).promise()
@@ -190,9 +192,11 @@ router.post("/todo/change", async (req, res) => {
             return
         }
         let access = false
+        let currentPoint = 0
         memberResp.Items.forEach(item => {
             if (item.organizationId === todoResp.Item["organizationId"]) {
                 access = true
+                currentPoint = item.point
             }
         })
         if (!access) {
@@ -215,6 +219,22 @@ router.post("/todo/change", async (req, res) => {
             UpdateExpression: "set #status = :status"
         }
         await documentClient.update(updateTodoItem).promise()
+        if (req.body["state"] === 2) {
+            const updateUserPointParam = {
+                TableName: dbname["Member"],
+                Key:{
+                    id: authResp.user["cognito:username"],
+                },
+                ExpressionAttributeNames: {
+                    "#point":"point"
+                },
+                ExpressionAttributeValues: {
+                    ":point": currentPoint + todoResp.Item.point
+                },
+                UpdateExpression: "set #point = :point"
+            }
+            await  documentClient.update(updateUserPointParam).promise()
+        }
         res.json({
             status: true
         })
