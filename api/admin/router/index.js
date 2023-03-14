@@ -208,4 +208,41 @@ router.get("/organization",async (req,res)=>{
     }
 })
 
+/*
+    コントラクトにロールを付与
+    リクエストパラメータ：
+    {
+        id: string,
+        walletAddress: string
+    }
+    レスポンス:
+    {
+        message: string,
+        contractAddress: string
+    }
+*/
+router.get("/contract/role",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getDatabaseParam = {
+            TableName: dbname["Organization"],
+            Key:{
+                id:req.query["id"]
+            }
+        }
+        const resp = await documentClient.get(getDatabaseParam).promise()
+        const web3 = new Web3()
+        const contract = new web3.eth.Contract(abi)
+        const message = contract.methods.AddMember([req.body["walletAddress"]]).encodeABI()
+        res.json({
+            message:message,
+            contractAddress: resp.Item.contractAddress
+        })
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
 module.exports = router
