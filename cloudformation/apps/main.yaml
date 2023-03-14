@@ -1,9 +1,12 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "daochatapplication"
+Description: "App CFn manager"
 Parameters:
   ServiceName:
     Type: String
     Default: daochat
+
+  OriginDomain:
+    Type: String
 
   CommonBucketName:
     Type: String
@@ -27,4 +30,5 @@ Resources:
         ServiceName: !Ref ServiceName
         CommonBucketName: !Ref CommonBucketName
         LambdaRoleArn: !GetAtt Role.Outputs.FunctionRoleArn
+        OriginDomain: !Ref OriginDomain
       TemplateURL: !Sub 'https://${CommonBucketName}.s3.us-east-1.amazonaws.com/apps/lambda.yaml'

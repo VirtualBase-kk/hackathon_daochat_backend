@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "daochat-role"
+Description: "Code for Lambda Role"
 Parameters:
   ServiceName:
     Type: String

@@ -1,9 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Lambda"
+Description: "Code for Lambda"
 Parameters:
   ServiceName:
     Type: String
     Default: daochat
+  OriginDomain:
+    Type: String
   CommonBucketName:
     Type: String
   LambdaRoleArn:
@@ -20,6 +22,10 @@ Resources:
       Handler: handler
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
+      Environment:
+        Variables:
+          ORIGIN: !Sub "${OriginDomain}"
+          SERVICE_NAME: !Sub "${ServiceName}"
   chatApi:
     Type: AWS::Lambda::Function
     Properties:
@@ -30,6 +36,10 @@ Resources:
       Handler: handler
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
+      Environment:
+        Variables:
+          ORIGIN: !Sub "${OriginDomain}"
+          SERVICE_NAME: !Sub "${ServiceName}"
   todoApi:
     Type: AWS::Lambda::Function
     Properties:
@@ -40,6 +50,10 @@ Resources:
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
       Handler: handler
+      Environment:
+        Variables:
+          ORIGIN: !Sub "${OriginDomain}"
+          SERVICE_NAME: !Sub "${ServiceName}"
   userApi:
     Type: AWS::Lambda::Function
     Properties:
@@ -50,6 +64,11 @@ Resources:
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
       Handler: handler
+      Environment:
+        Variables:
+          ORIGIN: !Sub "${OriginDomain}"
+          SERVICE_NAME: !Sub "${ServiceName}"
+          SECRET_NAME: !Sub "${ServiceName}-JWT-SECRET"
   walletLoginCreateAuthCallenge:
     Type: AWS::Lambda::Function
     Properties:
@@ -60,6 +79,9 @@ Resources:
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
       Handler: handler
+      Environment:
+        Variables:
+          SECRET_NAME: !Sub "${ServiceName}-JWT-SECRET"
   walletLoginDefineAuthChallenge:
     Type: AWS::Lambda::Function
     Properties:
@@ -70,6 +92,9 @@ Resources:
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
       Handler: handler
+      Environment:
+        Variables:
+          SECRET_NAME: !Sub "${ServiceName}-JWT-SECRET"
   walletLoginPreSignup:
     Type: AWS::Lambda::Function
     Properties:
@@ -80,6 +105,9 @@ Resources:
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
       Handler: handler
+      Environment:
+        Variables:
+          SECRET_NAME: !Sub "${ServiceName}-JWT-SECRET"
   walletLoginVerifyAuthChallenge:
     Type: AWS::Lambda::Function
     Properties:
@@ -90,3 +118,6 @@ Resources:
       Role: !Ref LambdaRoleArn
       Runtime: "nodejs18.x"
       Handler: handler
+      Environment:
+        Variables:
+          SECRET_NAME: !Sub "${ServiceName}-JWT-SECRET"
