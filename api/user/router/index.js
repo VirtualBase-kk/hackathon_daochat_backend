@@ -5,8 +5,8 @@ const documentClient = new AWS.DynamoDB.DocumentClient();
 const secretsManager = new aws.SecretsManager()
 const {dbname} = require("../dbname")
 const auth = require("../auth")
-import { v4 as uuidv4 } from 'uuid';
-import Web3 from "web3"
+const { v4:uuidv4 } = require("uuid")
+const Web3 = require("web3")
 
 /*
     ユーザー表示名を設定
@@ -239,3 +239,5 @@ router.post("/user/wallet/signin",async (req,res)=>{
 //         })
 //     }
 // })
+
+module.exports = router

@@ -1,6 +1,6 @@
 const serverlessExpress = require("@vendia/serverless-express");
 const express = require("express");
-const userRouter = require("./router/index")
+
 const app = express();
 
 const allowCrossDomain = function (req, res, next) {
@@ -20,7 +20,5 @@ const allowCrossDomain = function (req, res, next) {
 app.use(allowCrossDomain);
 
 app.use(express.json());
-
-app.use(userRouter)
 
 exports.handler = serverlessExpress({ app });
