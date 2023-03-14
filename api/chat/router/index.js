@@ -7,6 +7,7 @@ const {dbname} = require("../dbname")
 const auth = require("../auth")
 const { v4:uuidv4 } = require("uuid")
 const Web3 = require("web3")
+const abi = require("../contract/abi.json")
 
 /*
     ルームを作成
@@ -301,6 +302,101 @@ router.post("/room/chat",async (req,res)=>{
         }
         await documentClient.put(postChatInput).promise()
         res.json({status:false})
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
+/*
+    投票作成
+    リクエスト：
+    {
+        id: string（roomId）
+        text: string
+        choice:[
+            {
+                id: string
+                title: string
+            }
+        ]
+    }
+    レスポンス：
+    {
+        message: string
+    }
+*/
+router.post("/room/vote/create",async(req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getRoomIndex = {
+            TableName: dbname["Room"],
+            Key: {
+                id: req.body["id"]
+            }
+        }
+        const resp = documentClient.get(getRoomIndex).promise()
+        const queryMemberReq = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues: {
+                ":userId": authResp.user["cognito:username"]
+            },
+            ExpressionAttributeNames: {
+                "#userId": "userId"
+            },
+            KeyConditionExpression: "#userId = :userId"
+        }
+        const memberResp = await documentClient.query(queryMemberReq).promise()
+        if (memberResp.Count === 0) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+        let access = false
+        memberResp.Items.forEach(item => {
+            if (item.organizationId === resp.Item.organizationId) {
+                access = true
+            }
+        })
+        if (!access) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+
+        const voteId = uuidv4()
+
+        const createVoteInput = {
+            TableName: dbname["Vote"],
+            Items:{
+                id:voteId,
+                roomId: req.body["id"],
+                userId: authResp.user["cognito:username"],
+                title: req.body["text"],
+                choiceId: req.body["choice"]
+            }
+        }
+
+        await documentClient.put(createVoteInput).promise()
+
+        const web3 = new Web3()
+        const contract = new web3.eth.Contract(abi)
+
+        const title = []
+        const choiceId = []
+        req.body["choice"].forEach(item=>{
+            title.push(item.title)
+            choiceId.push(item.id)
+        })
+
+        const message = contract.methods.AddVote([voteId,title,choiceId]).encodeABI()
+        res.json({
+            message:message
+        })
     } else {
         res.status(401).json({
             status:false

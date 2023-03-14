@@ -169,13 +169,13 @@ Resources:
       AttributeDefinitions:
         - AttributeName: id
           AttributeType: S
-        - AttributeName: organizationId
+        - AttributeName: roomId
           AttributeType: S
       BillingMode: "PAY_PER_REQUEST"
       GlobalSecondaryIndexes:
-        - IndexName: "organizationId-index"
+        - IndexName: "roomId-index"
           KeySchema:
-            - AttributeName: "organizationId"
+            - AttributeName: "roomId"
               KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
