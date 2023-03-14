@@ -14,6 +14,7 @@ const Web3 = require("web3")
     {
         name: title,
         organization: string
+        description: string
     }
     レスポンス：
     {
@@ -61,7 +62,8 @@ router.post("/todo/create", async (req, res) => {
                 id: id,
                 title: req.body["name"],
                 status: false,
-                organization: req.body["organization"]
+                organization: req.body["organization"],
+                description: req.body["description"]
             }
         }
         await documentClient.put(putTodoItem).promise()
