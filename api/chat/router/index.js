@@ -672,7 +672,7 @@ router.get("/room/vote/list",async (req,res)=>{
                 choice: item.choiceId,
             })
         })
-        
+
         res.json(respData)
     } else {
         res.status(401).json({
