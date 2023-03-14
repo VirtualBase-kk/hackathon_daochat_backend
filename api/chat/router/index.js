@@ -236,4 +236,75 @@ router.get("/room/chat",async (req,res)=>{
     }
 })
 
+/*
+    チャット投稿
+    リクエスト：
+    {
+        id: string（roomId）
+        text: string
+    }
+    レスポンス：
+    {
+        status: bool
+    }
+*/
+router.post("/room/chat",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getRoomIndex = {
+            TableName: dbname["Room"],
+            Key:{
+                id: req.body["id"]
+            }
+        }
+        const resp = documentClient.get(getRoomIndex).promise()
+        const queryMemberReq = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues:{
+                ":userId":authResp.user["cognito:username"]
+            },
+            ExpressionAttributeNames:{
+                "#userId":"userId"
+            },
+            KeyConditionExpression:"#userId = :userId"
+        }
+        const memberResp = await documentClient.query(queryMemberReq).promise()
+        if (memberResp.Count === 0) {
+            res.status(401).json({
+                status:false
+            })
+            return
+        }
+        let access = false
+        memberResp.Items.forEach(item=>{
+            if(item.organizationId === resp.Item.organizationId) {
+                access = true
+            }
+        })
+        if (!access) {
+            res.status(401).json({
+                status:false
+            })
+            return
+        }
+        const postChatInput = {
+            TableName: dbname["Chat"],
+            Items: {
+                id: uuidv4(),
+                userId: authResp.user["cognito:username"],
+                roomId: req.body["id"],
+                createdTs: Date.now(),
+                text: req.body["text"],
+                status: true,
+            }
+        }
+        await documentClient.put(postChatInput).promise()
+        res.json({status:false})
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
 module.exports = router
