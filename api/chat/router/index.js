@@ -80,6 +80,82 @@ router.post("/room/create",async(req,res)=>{
 })
 
 /*
+    ルーム一覧
+    リクエストパラメータ：
+    {
+        id: string
+    }
+    レスポンス：
+    [
+        {
+            id: string,
+            name: string,
+            isDiscussion: bool
+        }
+    ]
+*/
+router.get("/room/list",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const queryMemberReq = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues:{
+                ":userId":authResp.user["cognito:username"]
+            },
+            ExpressionAttributeNames:{
+                "#userId":"userId"
+            },
+            KeyConditionExpression:"#userId = :userId"
+        }
+        const memberResp = await documentClient.query(queryMemberReq).promise()
+        if (memberResp.Count === 0) {
+            res.status(401).json({
+                status:false
+            })
+            return
+        }
+        let access = false
+        memberResp.Items.forEach(item=>{
+            if(item.organizationId === req.query["id"]) {
+                access = true
+            }
+        })
+        if (!access) {
+            res.status(401).json({
+                status:false
+            })
+            return
+        }
+        const queryRoomInput = {
+            TableName: dbname["Room"],
+            IndexName: "organizationId-index",
+            ExpressionAttributeValues:{
+                ":organizationId":req.query["id"],
+            },
+            ExpressionAttributeNames:{
+                "#organizationId":"organizationId"
+            },
+            KeyConditionExpression: "#organizationId = :organizationId"
+        }
+        const RoomListResp = await documentClient.query(queryMemberReq).promise()
+        const respData = []
+        RoomListResp.Items.forEach(item=>{
+            respData.push({
+                id: item.id,
+                name: item.name,
+                isDiscussion: item.discussionFlag
+            })
+        })
+        res.json(respData)
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
+/*
     ルーム情報を取得
     リクエストクエリ：
     {
@@ -314,6 +390,7 @@ router.post("/room/chat",async (req,res)=>{
     リクエスト：
     {
         id: string（roomId）
+        title: string
         text: string
         choice:[
             {
@@ -377,7 +454,8 @@ router.post("/room/vote/create",async(req,res)=>{
                 id:voteId,
                 roomId: req.body["id"],
                 userId: authResp.user["cognito:username"],
-                title: req.body["text"],
+                title: req.body["title"],
+                text: req.body["text"],
                 choiceId: req.body["choice"],
                 end: req.body["end"]
             }
@@ -495,4 +573,112 @@ router.post("/room/vote",async (req,res)=>{
         })
     }
 })
+
+/*
+    投票一覧
+    リクエスト：
+    {
+        id: string（ルームID）
+    }
+    レスポンス：
+    [
+        {
+           title:string,
+           text:string,
+           choice: [
+                {
+                    id: string
+                    title: string
+                }
+           ]
+        }
+    ]
+*/
+router.get("/room/vote/list",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getVoteItem = {
+            TableName: dbname["Vote"],
+            Key: {
+                id: req.body["id"]
+            }
+        }
+        const VoteResp = await documentClient.get(getVoteItem).promise()
+
+        const getRoomIndex = {
+            TableName: dbname["Room"],
+            Key: {
+                id: VoteResp.Item["roomId"]
+            }
+        }
+        const resp = documentClient.get(getRoomIndex).promise()
+        const queryMemberReq = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues: {
+                ":userId": authResp.user["cognito:username"]
+            },
+            ExpressionAttributeNames: {
+                "#userId": "userId"
+            },
+            KeyConditionExpression: "#userId = :userId"
+        }
+        const memberResp = await documentClient.query(queryMemberReq).promise()
+        if (memberResp.Count === 0) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+        let access = false
+        memberResp.Items.forEach(item => {
+            if (item.organizationId === resp.Item.organizationId) {
+                access = true
+            }
+        })
+        if (!access) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+
+        if (VoteResp.Item.end < Date.now()) {
+            res.status(400).json({
+                status: false
+            })
+            return
+        }
+
+        const queryVoteInput = {
+            TableName: dbname["Vote"],
+            IndexName: "roomId-index",
+            ExpressionAttributeNames:{
+                "#roomId":"roomId",
+            },
+            ExpressionAttributeValues: {
+                ":roomId": "roomId",
+            },
+            KeyConditionExpression:"#roomId = :roomId"
+        }
+
+        const queryVoteResp = await documentClient.query(queryVoteInput).promise()
+
+        const respData = []
+        queryVoteResp.forEach(item=>{
+            respData.push({
+                title: item.title,
+                text: item.text,
+                choice: item.choiceId,
+            })
+        })
+        
+        res.json(respData)
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
 module.exports = router
