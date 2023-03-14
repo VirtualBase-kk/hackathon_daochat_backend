@@ -31,7 +31,8 @@ router.post("/admin/create",async (req,res)=>{
             TableName: dbname["Organization"],
             Item:{
                 id:id,
-                name:req.body["name"]
+                name:req.body["name"],
+                ownerId: authResp.user["cognito:username"]
             }
         }
         try {
@@ -58,7 +59,6 @@ router.post("/admin/create",async (req,res)=>{
     }
 })
 
-
 /*
     コントラクトアドレスを設定
     リクエスト：
@@ -67,11 +67,24 @@ router.post("/admin/create",async (req,res)=>{
         contractAddress: string
     }
 */
-router.post("/admin/setContract",async () =>{
+router.post("/admin/setContract",async (req,res) =>{
     const authResp = await auth(req)
     if (authResp.status) {
+        const getDatabaseParam = {
+            TableName: dbname["Organization"],
+            Key:{
+                id:req.body["id"]
+            }
+        }
+        const resp = await documentClient.get(getDatabaseParam).promise()
+        if (resp.Item.ownerId !== authResp.user["cognito:username"]) {
+            res.status(400).json({
+                status:false
+            })
+            return
+        }
         const updateDatabaseParam = {
-            TableName: dbname["User"],
+            TableName: dbname["Organization"],
             Key:{
                 id: req.body["id"]
             },
@@ -86,6 +99,107 @@ router.post("/admin/setContract",async () =>{
         await documentClient.update(updateDatabaseParam).promise()
         res.json({
             status:false
+        })
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
+/*
+    組織へユーザーを追加
+    リクエスト：
+    {
+        id: string
+        walletAddress: string
+    }
+*/
+router.post("/admin/user",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getDatabaseParam = {
+            TableName: dbname["Organization"],
+            Key:{
+                id:req.body["id"]
+            }
+        }
+        const resp = await documentClient.get(getDatabaseParam).promise()
+        if (resp.Item.ownerId !== authResp.user["cognito:username"]) {
+            res.status(400).json({
+                status:false
+            })
+            return
+        }
+        const queryUserParam = {
+            TableName: dbname["User"],
+            IndexName: "evmAddress-index",
+            ExpressionAttributeNames:{
+                "#evmAddress":"evmAddress"
+            },
+            ExpressionAttributeValues:{
+                ":evmAddress":req.body["walletAddress"]
+            },
+            KeyConditionExpression: "#evmAddress = :evmAddress"
+        }
+        const quryUserResp = await documentClient(queryUserParam).promise()
+        if (quryUserResp.Count === 0) {
+            res.status(404).json({
+                status:false,
+            })
+            return
+        }
+        const putMemberInput = {
+            TableName: dbname["Member"],
+            Item: {
+                id:uuidv4(),
+                userId:queryUserParam.Items[0].userId,
+                organizationId:req.body["id"]
+            }
+        }
+        await documentClient.put(putMemberInput).promise()
+        res.json({
+            status:false
+        })
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
+
+/*
+    組織の情報を取得
+    リクエストパラメータ：
+    {
+        id: string
+    }
+    レスポンス:
+    {
+        contractAddress: string
+        name: string
+    }
+*/
+router.get("/organization",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getDatabaseParam = {
+            TableName: dbname["Organization"],
+            Key:{
+                id:req.query["id"]
+            }
+        }
+        const resp = await documentClient.get(getDatabaseParam).promise()
+        if (resp.Item.ownerId !== authResp.user["cognito:username"]) {
+            res.status(400).json({
+                status:false
+            })
+            return
+        }
+        res.json({
+            contractAddress:resp.Item["contractAddress"],
+            name: resp.Item["name"]
         })
     } else {
         res.status(401).json({
