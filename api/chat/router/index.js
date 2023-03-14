@@ -320,7 +320,8 @@ router.post("/room/chat",async (req,res)=>{
                 id: string
                 title: string
             }
-        ]
+        ],
+        end: int
     }
     レスポンス：
     {
@@ -377,7 +378,8 @@ router.post("/room/vote/create",async(req,res)=>{
                 roomId: req.body["id"],
                 userId: authResp.user["cognito:username"],
                 title: req.body["text"],
-                choiceId: req.body["choice"]
+                choiceId: req.body["choice"],
+                end: req.body["end"]
             }
         }
 
@@ -396,6 +398,96 @@ router.post("/room/vote/create",async(req,res)=>{
         const message = contract.methods.AddVote([voteId,title,choiceId]).encodeABI()
         res.json({
             message:message
+        })
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
+/*
+    投票作成
+    リクエスト：
+    {
+        id: string,
+        choiceId: string
+    }
+    レスポンス：
+    {
+        message: string
+    }
+*/
+router.post("/room/vote",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getVoteItem = {
+            TableName: dbname["Vote"],
+            Key: {
+                id: req.body["id"]
+            }
+        }
+        const VoteResp = await documentClient.get(getVoteItem).promise()
+
+        const getRoomIndex = {
+            TableName: dbname["Room"],
+            Key: {
+                id: VoteResp.Item["roomId"]
+            }
+        }
+        const resp = documentClient.get(getRoomIndex).promise()
+        const queryMemberReq = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues: {
+                ":userId": authResp.user["cognito:username"]
+            },
+            ExpressionAttributeNames: {
+                "#userId": "userId"
+            },
+            KeyConditionExpression: "#userId = :userId"
+        }
+        const memberResp = await documentClient.query(queryMemberReq).promise()
+        if (memberResp.Count === 0) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+        let access = false
+        memberResp.Items.forEach(item => {
+            if (item.organizationId === resp.Item.organizationId) {
+                access = true
+            }
+        })
+        if (!access) {
+            res.status(401).json({
+                status: false
+            })
+            return
+        }
+
+        if (VoteResp.Item.end < Date.now()) {
+            res.status(400).json({
+                status: false
+            })
+            return
+        }
+
+        const putItemInput = {
+            TableName: dbname["VoteResult"],
+            Item:{
+                id: uuidv4(),
+                voteId: req.body["id"],
+                userId: authResp.user["cognito:username"],
+                choiceId: req.body["choiceId"]
+            }
+        }
+
+        await documentClient.put(putItemInput).promise()
+
+        res.json({
+            status: true
         })
     } else {
         res.status(401).json({
