@@ -1,4 +1,4 @@
-export const dbname = {
+exports.dbname = {
     Organization:process.env.SERVICE_NAME+"-Organization",
     Room:process.env.SERVICE_NAME+"-Room",
     Chat:process.env.SERVICE_NAME+"-Chat",
