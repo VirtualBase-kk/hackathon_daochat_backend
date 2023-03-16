@@ -1,6 +1,6 @@
 const {verify} = require("jsonwebtoken")
 const aws = require("aws-sdk")
-export const handler = async (event) => {
+exports.handler = async (event) => {
     const secretsManager = new aws.SecretsManager()
     const response = await secretsManager.getSecretValue({
         SecretId: process.env.SECRET_NAME,

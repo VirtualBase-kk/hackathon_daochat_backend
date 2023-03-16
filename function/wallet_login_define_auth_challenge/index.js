@@ -1,4 +1,4 @@
-export const handler = async (event) => {
+exports.handler = async (event) => {
     if (event.request.session.length > 0) {
         if (event.request.session[event.request.session.length - 1].challengeResult) {
             event.response.issueTokens = true;
