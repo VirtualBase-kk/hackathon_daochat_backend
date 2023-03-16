@@ -42,6 +42,58 @@
               }
             }
           }
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -67,6 +119,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -91,6 +195,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -108,6 +264,58 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -133,6 +341,58 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -160,6 +420,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -177,6 +489,70 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "httpMethod": "POST",
+            "passthroughBehavior": "when_no_match",
+            "type": "aws_proxy",
+            "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+            "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          },
+          "security": [
+            {
+              "CognitoUserPool": []
+            }
+          ]
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -194,6 +570,58 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -209,7 +637,19 @@
         }],
         "responses": {
 
-        }
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
       },
       "post": {
         "requestBody": {
@@ -231,6 +671,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -275,6 +767,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -302,7 +846,19 @@
         },
         "responses": {
 
-        }
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
       },
       "get": {
         "parameters": [
@@ -317,6 +873,58 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -334,6 +942,58 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -364,6 +1024,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Todo-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -381,6 +1093,58 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Todo-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -405,6 +1169,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Todo-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -426,6 +1242,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -443,6 +1311,58 @@
         ],
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -464,6 +1384,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -488,6 +1460,58 @@
         },
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -495,6 +1519,58 @@
       "get": {
         "responses": {
 
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
         }
       }
     },
@@ -511,7 +1587,75 @@
           }
         ],
         "responses": {
-          
+
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy",
+          "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
+          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+        },
+        "security": [
+          {
+            "CognitoUserPool": []
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "default",
+            "headers": {
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{'statusCode' : 200}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "CognitoUserPool": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "x-amazon-apigateway-authtype": "cognito_user_pools",
+        "x-amazon-apigateway-authorizer": {
+          "type": "cognito_user_pools",
+          "providerARNs": [
+            "arn:aws:cognito-idp:us-east-1:${AWS::AccountId}:userpool/us-east-1_pgMduxM1X"
+          ]
         }
       }
     }
