@@ -593,7 +593,8 @@ router.post("/room/vote",async (req,res)=>{
            ],
            result:{
                 [id:string]:number
-           }
+           },
+           voted:bool
         }
 */
 router.get("/room/vote/",async (req,res)=>{
@@ -664,15 +665,21 @@ router.get("/room/vote/",async (req,res)=>{
         VoteResp.Item["choiceId"].forEach(item=>{
             respResult[item.id] = 0
         })
+
+        let voted = false
         voteResultResp.Items.forEach(item=>{
             respResult[item.choiceId] = respResult[item.choiceId]+1
+            if (respResult[item.choiceId].userId === authResp.user["cognito:username"]) {
+                voted = true
+            }
         })
 
         res.json({
             title:VoteResp.Item["title"],
             text: VoteResp.Item["text"],
             choice: VoteResp.Item["choiceId"],
-            result:voteResultResp
+            result:voteResultResp,
+            voted: voted
         })
     } else {
         res.status(401).json({
