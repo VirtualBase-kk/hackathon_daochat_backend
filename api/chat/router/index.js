@@ -485,10 +485,11 @@ router.post("/room/vote/create",async(req,res)=>{
 })
 
 /*
-    投票作成
+    投票
     リクエスト：
     {
         id: string,
+        text: string
         choiceId: string
     }
     レスポンス：
@@ -575,13 +576,12 @@ router.post("/room/vote",async (req,res)=>{
 })
 
 /*
-    投票一覧
+    投票取得
     リクエスト：
     {
         id: string（ルームID）
     }
     レスポンス：
-    [
         {
            title:string,
            text:string,
@@ -592,9 +592,8 @@ router.post("/room/vote",async (req,res)=>{
                 }
            ]
         }
-    ]
 */
-router.get("/room/vote/list",async (req,res)=>{
+router.get("/room/vote/",async (req,res)=>{
     const authResp = await auth(req)
     if (authResp.status) {
         const getVoteItem = {
@@ -604,7 +603,6 @@ router.get("/room/vote/list",async (req,res)=>{
             }
         }
         const VoteResp = await documentClient.get(getVoteItem).promise()
-
         const getRoomIndex = {
             TableName: dbname["Room"],
             Key: {
@@ -643,37 +641,11 @@ router.get("/room/vote/list",async (req,res)=>{
             return
         }
 
-        if (VoteResp.Item.end < Date.now()) {
-            res.status(400).json({
-                status: false
-            })
-            return
-        }
-
-        const queryVoteInput = {
-            TableName: dbname["Vote"],
-            IndexName: "roomId-index",
-            ExpressionAttributeNames:{
-                "#roomId":"roomId",
-            },
-            ExpressionAttributeValues: {
-                ":roomId": "roomId",
-            },
-            KeyConditionExpression:"#roomId = :roomId"
-        }
-
-        const queryVoteResp = await documentClient.query(queryVoteInput).promise()
-
-        const respData = []
-        queryVoteResp.forEach(item=>{
-            respData.push({
-                title: item.title,
-                text: item.text,
-                choice: item.choiceId,
-            })
+        res.json({
+            title:VoteResp.Item["title"],
+            text: VoteResp.Item["text"],
+            choice: VoteResp.Item["choiceId"],
         })
-
-        res.json(respData)
     } else {
         res.status(401).json({
             status:false
