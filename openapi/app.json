@@ -1,0 +1,519 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Title",
+    "description": "Title",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/admin/create": {
+      "post": {
+        "description": "プロジェクトを作成",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "bin": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/setContract": {
+      "post": {
+        "description": "コントラクトアドレスを設定",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "contractaddress": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/admin/user": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "walletAddress": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/organization": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "name": "id"
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/contract/role": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "walletAddress",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/room/create": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "organization": {
+                    "type": "string"
+                  },
+                  "discussionFlag": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/room/list": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/room": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/room/chat": {
+      "get": {
+        "parameters": [{
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "name": "id"
+        }],
+        "responses": {
+
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/room/vote/create": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "choice": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "end": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/room/vote": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "choiceId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/room/vote/push": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/todo/create": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "organization": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "point": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/todo/list": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id"
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/todo/change": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/user/name": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/user/meta": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+
+        }
+      }
+    },
+    "/user/message": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "walletAddress": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/user/wallet/signin": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "messageId": {
+                    "type": "string"
+                  },
+                  "signature": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+
+        }
+      }
+    },
+    "/user/organization": {
+      "get": {
+        "responses": {
+
+        }
+      }
+    },
+    "/user/point": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          
+        }
+      }
+    }
+  }
+}
