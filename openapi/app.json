@@ -48,7 +48,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -125,7 +125,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -201,7 +201,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -270,7 +270,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -347,7 +347,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -426,7 +426,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -495,7 +495,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -530,7 +530,7 @@
             "passthroughBehavior": "when_no_match",
             "type": "aws_proxy",
             "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
-            "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+            "credentials": "arn:aws:iam::012688626467:role/apigwrole"
           },
           "security": [
             {
@@ -576,7 +576,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -643,7 +643,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -677,7 +677,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -773,7 +773,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -852,7 +852,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -879,7 +879,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -948,7 +948,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1030,7 +1030,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Todo-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1099,7 +1099,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Todo-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1175,7 +1175,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Todo-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1248,7 +1248,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1317,7 +1317,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1390,7 +1390,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1466,7 +1466,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1525,7 +1525,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
@@ -1594,7 +1594,7 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
           "uri": "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-User-Api/invocations",
-          "credentials": "arn:aws:iam::130377448015:role/nftcraft-ApiGateway-LambdaExecutionRole"
+          "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
           {
