@@ -7,6 +7,7 @@ const {dbname} = require("../dbname")
 const auth = require("../auth")
 const { v4:uuidv4 } = require("uuid")
 const Web3 = require("web3")
+var jwt = require("jsonwebtoken");
 
 /*
     ユーザー表示名を設定
@@ -157,10 +158,10 @@ router.post("/user/wallet/signin",async (req,res)=>{
         }
         const userResp = await documentClient.query(queryUserTableParam).promise()
         let userId = uuidv4()
-        if (userResp.Count !== 0) {
+        if (userResp.Count === 0) {
             const putUserParam = {
                 TableName: dbname["User"],
-                key:{
+                Item:{
                     id: userId,
                     evmAddress: resp.Item.walletAddress.toUpperCase()
                 }
