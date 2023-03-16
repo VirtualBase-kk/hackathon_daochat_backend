@@ -127,7 +127,8 @@ router.post("/user/message",async (req,res)=>{
     レスポンス：
     {
         status: bool
-        jwt: string
+        jwt: string,
+        userId:string
     }
  */
 router.post("/user/wallet/signin",async (req,res)=>{
@@ -181,6 +182,7 @@ router.post("/user/wallet/signin",async (req,res)=>{
         res.json({
             status:true,
             jwt:token,
+            userId: userId
         })
     } else {
         res.status(400).json({status:false})
