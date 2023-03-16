@@ -44,7 +44,7 @@ router.post("/admin/create",async (req,res)=>{
                 arguments:[req.body["name"]]
             })
             res.json({
-                status: true,
+                id: id,
                 bin: deployObj.encodeABI()
             })
         } catch {
