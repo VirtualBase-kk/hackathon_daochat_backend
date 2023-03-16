@@ -219,4 +219,42 @@ router.get("/user/organization",async (req,res)=>{
     }
 })
 
+/*
+    ユーザーのポイント
+    リクエストパラメータ：
+    {
+        id: string
+    }
+    レスポンス：
+    number
+ */
+router.get("/user/point",async (req,res)=>{
+    const authResp = await auth(req)
+    if (authResp.status) {
+        const getMemberParam = {
+            TableName: dbname["Member"],
+            IndexName: "userId-index",
+            ExpressionAttributeValues: {
+                "#userId": "userId"
+            },
+            ExpressionAttributeNames:{
+                ":userId":authResp.user["cognito:username"]
+            }
+        }
+        const queryResp = await documentClient.query(getMemberParam).promise()
+        const resp = []
+        queryResp.Items.forEach(item=>{
+            if (item.organizationId === req.query["id"]) {
+                resp.push(item.id)
+            }
+        })
+        res.send(resp[0].point)
+    } else {
+        res.status(401).json({
+            status:false
+        })
+    }
+})
+
+
 module.exports = router

@@ -577,7 +577,7 @@ router.post("/room/vote",async (req,res)=>{
 
 /*
     投票取得
-    リクエスト：
+    リクエストパラメータ：
     {
         id: string（ルームID）
     }
@@ -590,7 +590,10 @@ router.post("/room/vote",async (req,res)=>{
                     id: string
                     title: string
                 }
-           ]
+           ],
+           result:{
+                [id:string]:number
+           }
         }
 */
 router.get("/room/vote/",async (req,res)=>{
@@ -599,7 +602,7 @@ router.get("/room/vote/",async (req,res)=>{
         const getVoteItem = {
             TableName: dbname["Vote"],
             Key: {
-                id: req.body["id"]
+                id: req.query["id"]
             }
         }
         const VoteResp = await documentClient.get(getVoteItem).promise()
@@ -641,10 +644,35 @@ router.get("/room/vote/",async (req,res)=>{
             return
         }
 
+        const quertResultParam = {
+            TableName: dbname["VoteResult"],
+            IndexName: "voteId-index",
+            ExpressionAttributeValues: {
+                ":voteId": req.query["id"]
+            },
+            ExpressionAttributeNames:{
+                "#voteId":"voteId"
+            },
+            KeyConditionExpression:"#voteId = :voteId"
+        }
+
+        const voteResultResp = await documentClient.query(queryMemberReq).promise()
+
+        const respResult = {
+
+        }
+        VoteResp.Item["choiceId"].forEach(item=>{
+            respResult[item.id] = 0
+        })
+        voteResultResp.Items.forEach(item=>{
+            respResult[item.choiceId] = respResult[item.choiceId]+1
+        })
+
         res.json({
             title:VoteResp.Item["title"],
             text: VoteResp.Item["text"],
             choice: VoteResp.Item["choiceId"],
+            result:voteResultResp
         })
     } else {
         res.status(401).json({
