@@ -686,7 +686,7 @@ router.get("/room/vote/",async (req,res)=>{
             choice: VoteResp.Items[0]["choiceId"],
             result:voteResultResp,
             voted: voted,
-            endTs: VoteResp.Items[0]["endTs"]
+            endTs: VoteResp.Items[0]["end"]
         })
     } else {
         res.status(401).json({
