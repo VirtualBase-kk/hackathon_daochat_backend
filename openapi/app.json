@@ -676,7 +676,7 @@
           "httpMethod": "POST",
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy",
-          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Admin-Api/invocations",
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:daochat-Chat-Api/invocations",
           "credentials": "arn:aws:iam::012688626467:role/apigwrole"
         },
         "security": [
