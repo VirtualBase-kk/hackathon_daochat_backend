@@ -68,7 +68,7 @@ router.get("/user/meta",async(req,res)=>{
         let resp = await documentClient.get(getUserParam).promise()
         res.json({
             name: resp.Item.name,
-            walletAddress: resp.Item.walletAddress,
+            walletAddress: resp.Item.evmAddress,
         })
     } else {
         res.status(401).json({
@@ -254,7 +254,10 @@ router.get("/user/point",async (req,res)=>{
                 resp.push(item.id)
             }
         })
-        res.send(resp[0].point)
+        if (resp.length === 0) {
+            resp.push({point:0})
+        }
+        res.json(resp[0].point)
     } else {
         res.status(401).json({
             status:false
