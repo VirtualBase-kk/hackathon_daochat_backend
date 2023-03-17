@@ -147,11 +147,11 @@ router.post("/admin/user",async (req,res)=>{
                 "#evmAddress":"evmAddress"
             },
             ExpressionAttributeValues:{
-                ":evmAddress":req.body["walletAddress"]
+                ":evmAddress":req.body["walletAddress"].toUpperCase()
             },
             KeyConditionExpression: "#evmAddress = :evmAddress"
         }
-        const quryUserResp = await documentClient(queryUserParam).promise()
+        const quryUserResp = await documentClient.query(queryUserParam).promise()
         if (quryUserResp.Count === 0) {
             res.status(404).json({
                 status:false,
@@ -162,7 +162,7 @@ router.post("/admin/user",async (req,res)=>{
             TableName: dbname["Member"],
             Item: {
                 id:uuidv4(),
-                userId:queryUserParam.Items[0].userId,
+                userId:quryUserResp.Items[0].id,
                 organizationId:req.body["id"]
             }
         }
@@ -200,12 +200,6 @@ router.get("/organization",async (req,res)=>{
             }
         }
         const resp = await documentClient.get(getDatabaseParam).promise()
-        if (resp.Item.ownerId !== authResp.user["cognito:username"]) {
-            res.status(400).json({
-                status:false
-            })
-            return
-        }
         res.json({
             contractAddress:resp.Item["contractAddress"],
             name: resp.Item["name"]
@@ -241,11 +235,11 @@ router.get("/contract/role",async (req,res)=>{
         }
         const resp = await documentClient.get(getDatabaseParam).promise()
         const web3 = new Web3()
-        const contract = new web3.eth.Contract(abi)
-        const message = contract.methods.AddMember([req.body["walletAddress"]]).encodeABI()
+        const contract = new web3.eth.Contract(abi,resp.Item.contractAddress)
+        const message = contract.methods.AddMember(req.query["walletAddress"]).encodeABI()
         res.json({
             message:message,
-            contractAddress: resp.Item.contractAddress
+//            contractAddress: resp.Item.contractAddress
         })
     } else {
         res.status(401).json({

@@ -214,7 +214,7 @@ router.get("/user/organization",async (req,res)=>{
         const queryResp = await documentClient.query(getMemberParam).promise()
         const resp = []
         queryResp.Items.forEach(item=>{
-            resp.push(item.id)
+            resp.push(item.organizationId)
         })
         res.json(resp)
     } else {
