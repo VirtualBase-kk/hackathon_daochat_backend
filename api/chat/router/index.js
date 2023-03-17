@@ -59,7 +59,7 @@ router.post("/room/create",async(req,res)=>{
         const id = uuidv4()
         const putRoomInput = {
             TableName: dbname["Room"],
-            Items:{
+            Item:{
                 id: id,
                 organizationId: req.body["organization"],
                 title: req.body["name"],
@@ -138,15 +138,17 @@ router.get("/room/list",async (req,res)=>{
             },
             KeyConditionExpression: "#organizationId = :organizationId"
         }
-        const RoomListResp = await documentClient.query(queryMemberReq).promise()
+        const RoomListResp = await documentClient.query(queryRoomInput).promise()
         const respData = []
+        console.log(RoomListResp)
         RoomListResp.Items.forEach(item=>{
             respData.push({
                 id: item.id,
-                name: item.name,
+                name: item.title,
                 isDiscussion: item.discussionFlag
             })
         })
+        console.log(respData)
         res.json(respData)
     } else {
         res.status(401).json({
@@ -414,7 +416,7 @@ router.post("/room/vote/create",async(req,res)=>{
                 id: req.body["id"]
             }
         }
-        const resp = documentClient.get(getRoomIndex).promise()
+        const resp = await documentClient.get(getRoomIndex).promise()
         const queryMemberReq = {
             TableName: dbname["Member"],
             IndexName: "userId-index",
@@ -450,7 +452,7 @@ router.post("/room/vote/create",async(req,res)=>{
 
         const createVoteInput = {
             TableName: dbname["Vote"],
-            Items:{
+            Item:{
                 id:voteId,
                 roomId: req.body["id"],
                 userId: authResp.user["cognito:username"],
@@ -466,14 +468,12 @@ router.post("/room/vote/create",async(req,res)=>{
         const web3 = new Web3()
         const contract = new web3.eth.Contract(abi)
 
-        const title = []
         const choiceId = []
         req.body["choice"].forEach(item=>{
-            title.push(item.title)
             choiceId.push(item.id)
         })
 
-        const message = contract.methods.AddVote([voteId,title,choiceId]).encodeABI()
+        const message = contract.methods.AddVote(voteId,req.body["title"],choiceId).encodeABI()
         res.json({
             message:message
         })
