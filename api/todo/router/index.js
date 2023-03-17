@@ -7,6 +7,7 @@ const {dbname} = require("../dbname")
 const auth = require("../auth")
 const {v4: uuidv4} = require("uuid")
 const Web3 = require("web3")
+const abi = require("../contract/abi.json")
 
 /*
     Todoを作成
@@ -56,6 +57,7 @@ router.post("/todo/create", async (req, res) => {
             })
             return
         }
+
         const id = uuidv4()
         const putTodoItem = {
             TableName: dbname["TodoItem"],
@@ -69,6 +71,10 @@ router.post("/todo/create", async (req, res) => {
             }
         }
         await documentClient.put(putTodoItem).promise()
+
+        res.json({
+            id: id
+        })
     } else {
         res.status(401).json({
             status: false
@@ -114,7 +120,7 @@ router.get("/todo/list", async (req, res) => {
         }
         let access = false
         memberResp.Items.forEach(item => {
-            if (item.organizationId === req.body["organization"]) {
+            if (item.organizationId === req.query["id"]) {
                 access = true
             }
         })
@@ -127,10 +133,10 @@ router.get("/todo/list", async (req, res) => {
             TableName: dbname["TodoItem"],
             IndexName:"organization-index",
             ExpressionAttributeValues:{
-                "#organization": req.query["id"]
+                ":organization": req.query["id"]
             },
             ExpressionAttributeNames:{
-                ":organization":"organization"
+                "#organization":"organization"
             },
             KeyConditionExpression:"#organization=:organization"
         }
@@ -140,7 +146,9 @@ router.get("/todo/list", async (req, res) => {
             respData.push({
                 id: item.id,
                 title: item.title,
-                status: item.status
+                status: item.status,
+                description: item.description,
+                point:item.point
             })
         })
         res.json(respData)
