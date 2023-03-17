@@ -19,4 +19,5 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 node_modules/
+**.zip
 #amplify-do-not-edit-end

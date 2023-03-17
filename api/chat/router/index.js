@@ -594,7 +594,8 @@ router.post("/room/vote",async (req,res)=>{
            result:{
                 [id:string]:number
            },
-           voted:bool
+           voted:bool,
+           endTs: number
         }
 */
 router.get("/room/vote/",async (req,res)=>{
@@ -602,18 +603,23 @@ router.get("/room/vote/",async (req,res)=>{
     if (authResp.status) {
         const getVoteItem = {
             TableName: dbname["Vote"],
-            Key: {
-                id: req.query["id"]
-            }
+            IndexName: "roomId-index",
+            ExpressionAttributeNames:{
+                "#roomId":"roomId"
+            },
+            ExpressionAttributeValues:{
+                ":roomId":req.query["id"]
+            },
+            KeyConditionExpression: "#roomId = :roomId"
         }
-        const VoteResp = await documentClient.get(getVoteItem).promise()
+        const VoteResp = await documentClient.query(getVoteItem).promise()
         const getRoomIndex = {
             TableName: dbname["Room"],
             Key: {
-                id: VoteResp.Item["roomId"]
+                id: VoteResp.Items[0].roomId
             }
         }
-        const resp = documentClient.get(getRoomIndex).promise()
+        const resp = await documentClient.get(getRoomIndex).promise()
         const queryMemberReq = {
             TableName: dbname["Member"],
             IndexName: "userId-index",
@@ -657,12 +663,12 @@ router.get("/room/vote/",async (req,res)=>{
             KeyConditionExpression:"#voteId = :voteId"
         }
 
-        const voteResultResp = await documentClient.query(queryMemberReq).promise()
+        const voteResultResp = await documentClient.query(quertResultParam).promise()
 
         const respResult = {
 
         }
-        VoteResp.Item["choiceId"].forEach(item=>{
+        VoteResp.Items[0]["choiceId"].forEach(item=>{
             respResult[item.id] = 0
         })
 
@@ -675,11 +681,12 @@ router.get("/room/vote/",async (req,res)=>{
         })
 
         res.json({
-            title:VoteResp.Item["title"],
-            text: VoteResp.Item["text"],
-            choice: VoteResp.Item["choiceId"],
+            title:VoteResp.Items[0]["title"],
+            text: VoteResp.Items[0]["text"],
+            choice: VoteResp.Items[0]["choiceId"],
             result:voteResultResp,
-            voted: voted
+            voted: voted,
+            endTs: VoteResp.Items[0]["endTs"]
         })
     } else {
         res.status(401).json({
