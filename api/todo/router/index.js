@@ -148,7 +148,8 @@ router.get("/todo/list", async (req, res) => {
                 title: item.title,
                 status: item.status,
                 description: item.description,
-                point:item.point
+                point:item.point,
+                userId: item.userId
             })
         })
         res.json(respData)
@@ -164,7 +165,7 @@ router.get("/todo/list", async (req, res) => {
     リクエスト：
     {
         id: string
-        state: int
+        state: bool
     }
     レスポンス：
     {
@@ -202,9 +203,12 @@ router.post("/todo/change", async (req, res) => {
         let access = false
         let currentPoint = 0
         memberResp.Items.forEach(item => {
-            if (item.organizationId === todoResp.Item["organizationId"]) {
+            if (item.organizationId === todoResp.Item["organization"]) {
                 access = true
-                currentPoint = item.point
+                if (item.point !== undefined) {
+                    currentPoint = item.point
+                }
+
             }
         })
         if (!access) {
@@ -220,18 +224,20 @@ router.post("/todo/change", async (req, res) => {
             },
             ExpressionAttributeNames: {
                 "#status": "status",
+                "#userId":"userId"
             },
             ExpressionAttributeValues: {
-                ":status": req.body["state"]
+                ":status": req.body["state"],
+                ":userId": authResp.user["cognito:username"]
             },
-            UpdateExpression: "set #status = :status"
+            UpdateExpression: "set #status = :status,#userId = :userId"
         }
         await documentClient.update(updateTodoItem).promise()
-        if (req.body["state"] === 2) {
+        if (req.body["state"]) {
             const updateUserPointParam = {
                 TableName: dbname["Member"],
                 Key:{
-                    id: authResp.user["cognito:username"],
+                    id: memberResp.Items[0].id
                 },
                 ExpressionAttributeNames: {
                     "#point":"point"

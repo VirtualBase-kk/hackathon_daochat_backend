@@ -251,7 +251,7 @@ router.get("/user/point",async (req,res)=>{
         const resp = []
         queryResp.Items.forEach(item=>{
             if (item.organizationId === req.query["id"]) {
-                resp.push(item.id)
+                resp.push(item)
             }
         })
         if (resp.length === 0) {
