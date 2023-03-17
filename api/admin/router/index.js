@@ -97,6 +97,15 @@ router.post("/admin/setContract",async (req,res) =>{
             },
         }
         await documentClient.update(updateDatabaseParam).promise()
+        const putMemberParam = {
+            TableName: dbname["Member"],
+            Item:{
+                id: uuidv4(),
+                userId: authResp.user["cognito:username"],
+                organizationId: req.body["id"]
+            }
+        }
+        await documentClient.put(putMemberParam).promise()
         res.json({
             status:false
         })

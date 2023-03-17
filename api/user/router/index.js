@@ -202,13 +202,15 @@ router.get("/user/organization",async (req,res)=>{
         const getMemberParam = {
             TableName: dbname["Member"],
             IndexName: "userId-index",
-            ExpressionAttributeValues: {
+            ExpressionAttributeNames: {
                 "#userId": "userId"
             },
-            ExpressionAttributeNames:{
+            ExpressionAttributeValues:{
                 ":userId":authResp.user["cognito:username"]
-            }
+            },
+            KeyConditionExpression: "#userId = :userId"
         }
+        console.log(getMemberParam)
         const queryResp = await documentClient.query(getMemberParam).promise()
         const resp = []
         queryResp.Items.forEach(item=>{
@@ -237,12 +239,13 @@ router.get("/user/point",async (req,res)=>{
         const getMemberParam = {
             TableName: dbname["Member"],
             IndexName: "userId-index",
-            ExpressionAttributeValues: {
+            ExpressionAttributeNames: {
                 "#userId": "userId"
             },
-            ExpressionAttributeNames:{
+            ExpressionAttributeValues:{
                 ":userId":authResp.user["cognito:username"]
-            }
+            },
+            KeyConditionExpression: "#userId = :userId"
         }
         const queryResp = await documentClient.query(getMemberParam).promise()
         const resp = []
