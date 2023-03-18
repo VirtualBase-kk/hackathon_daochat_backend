@@ -547,7 +547,7 @@ router.post("/room/vote",async (req,res)=>{
             return
         }
 
-        if (VoteResp.Item.end > Date.now()) {
+        if (VoteResp.Item.end < Date.now()) {
             res.status(400).json({
                 status: false
             })
@@ -719,7 +719,7 @@ router.get("/room/vote/push",async (req,res)=>{
         const getVoteItem = {
             TableName: dbname["Vote"],
             Key: {
-                id: req.body["id"]
+                id: req.query["id"]
             }
         }
         const VoteResp = await documentClient.get(getVoteItem).promise()
@@ -730,7 +730,7 @@ router.get("/room/vote/push",async (req,res)=>{
                 id: VoteResp.Item["roomId"]
             }
         }
-        const resp = documentClient.get(getRoomIndex).promise()
+        const resp = await documentClient.get(getRoomIndex).promise()
         const queryMemberReq = {
             TableName: dbname["Member"],
             IndexName: "userId-index",
@@ -802,7 +802,7 @@ router.get("/room/vote/push",async (req,res)=>{
         const web3 = new Web3()
         const contract = new web3.eth.Contract(abi)
 
-        const message = contract.methods.AddAnswer([req.query["id"],choiceIds,counts]).encodeABI()
+        const message = contract.methods.AddAnswer(req.query["id"],choiceIds,counts).encodeABI()
 
         res.json({
             message: message
