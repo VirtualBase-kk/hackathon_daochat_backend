@@ -665,7 +665,7 @@ router.get("/room/vote/",async (req,res)=>{
             },
             KeyConditionExpression:"#voteId = :voteId"
         }
-        
+
         const voteResultResp = await documentClient.query(quertResultParam).promise()
 
         const respResult = {

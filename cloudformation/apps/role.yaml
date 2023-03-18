@@ -37,6 +37,16 @@ Resources:
               - 'dynamodb:Query'
               - 'dynamodb:UpdateItem'
               - 'dynamodb:PutItem'
+          - Effect: Allow
+            Resource: "*"
+            Action:
+              - "cognito-identity:Get*"
+              - "cognito-identity:List*"
+              - "cognito-idp:AdminGet*"
+              - "cognito-idp:AdminList*"
+              - "cognito-idp:List*"
+              - "cognito-idp:Get*"
+              - "secretsmanager:*"
 
 Outputs:
   FunctionRoleArn:
