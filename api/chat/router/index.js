@@ -491,7 +491,6 @@ router.post("/room/vote/create",async(req,res)=>{
     リクエスト：
     {
         id: string,
-        text: string
         choiceId: string
     }
     レスポンス：
@@ -516,7 +515,7 @@ router.post("/room/vote",async (req,res)=>{
                 id: VoteResp.Item["roomId"]
             }
         }
-        const resp = documentClient.get(getRoomIndex).promise()
+        const resp = await documentClient.get(getRoomIndex).promise()
         const queryMemberReq = {
             TableName: dbname["Member"],
             IndexName: "userId-index",
@@ -548,7 +547,7 @@ router.post("/room/vote",async (req,res)=>{
             return
         }
 
-        if (VoteResp.Item.end < Date.now()) {
+        if (VoteResp.Item.end > Date.now()) {
             res.status(400).json({
                 status: false
             })
@@ -585,6 +584,7 @@ router.post("/room/vote",async (req,res)=>{
     }
     レスポンス：
         {
+           id: string
            title:string,
            text:string,
            choice: [
@@ -658,14 +658,14 @@ router.get("/room/vote/",async (req,res)=>{
             TableName: dbname["VoteResult"],
             IndexName: "voteId-index",
             ExpressionAttributeValues: {
-                ":voteId": req.query["id"]
+                ":voteId": VoteResp.Items[0].id
             },
             ExpressionAttributeNames:{
                 "#voteId":"voteId"
             },
             KeyConditionExpression:"#voteId = :voteId"
         }
-
+        
         const voteResultResp = await documentClient.query(quertResultParam).promise()
 
         const respResult = {
@@ -679,17 +679,18 @@ router.get("/room/vote/",async (req,res)=>{
         let myChoice = ""
         voteResultResp.Items.forEach(item=>{
             respResult[item.choiceId] = respResult[item.choiceId]+1
-            if (respResult[item.choiceId].userId === authResp.user["cognito:username"]) {
+            if (item.userId === authResp.user["cognito:username"]) {
                 voted = true
                 myChoice = respResult[item.choiceId].choiceId
             }
         })
 
         res.json({
+            id: VoteResp.Items[0]["id"],
             title:VoteResp.Items[0]["title"],
             text: VoteResp.Items[0]["text"],
             choice: VoteResp.Items[0]["choiceId"],
-            result:voteResultResp,
+            result:respResult,
             voted: voted,
             endTs: VoteResp.Items[0]["end"],
             votedId: myChoice
